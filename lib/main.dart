@@ -1,7 +1,5 @@
 //contact profile page use with .dart extension
 
-
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(ContactProfilePage());
@@ -11,8 +9,125 @@ class ContactProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      //Applying Global Theme
+      theme: ThemeData(
+          //Define the default brightness and colors
+          brightness: Brightness.light,
+          //applying global theme to appBar
+          appBarTheme: AppBarTheme(
+            color: Colors.white,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.indigo.shade800,
+          )),
+
       home: Scaffold(
-        appBar: AppBar(
+        appBar: buildAppBarWidget(),
+        body: buildBodyWidget(),
+      ),
+    );
+  }
+
+  Widget buildAppBarWidget() {
+    return AppBar(
+      leading: Icon(
+        Icons.arrow_back,
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.star_border),
+          onPressed: () {
+            print("Contact is starred");
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildBodyWidget() {
+    return ListView(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 250,
+              child: Image.network(
+                "https://cdn.pixabay.com/photo/2020/11/06/05/33/woman-5716875_1280.png",
+                height: 250,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Ms Abs",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 8),
+              //NEW CODE: Applying local theme to profileActionItems()
+              child: Theme(
+                data: ThemeData(
+                  //Applying iconTheme locally
+                  iconTheme: IconThemeData(
+                    //NOTE: Try Colors.orange or a diffrent color
+                    color: Colors.pink,
+                  ),
+                ),
+                child: profileActionItems(),
+              ),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            mobilePhoneListTile(),
+            otherPhoneListTile(),
+            Divider(
+              color: Colors.grey,
+            ),
+            emailListTile(),
+            Divider(
+              color: Colors.grey,
+            ),
+            addressListTile(),
+          ],
+        ),
+      ],
+    );
+  }
+
+  //NOTE: Builds the action items widget
+  Widget profileActionItems() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        buildCallButton(),
+        buildTextButton(),
+        buildVideoCallButton(),
+        buildEmailButton(),
+        buildDirectionsButton(),
+        buildPayButton(),
+      ],
+    );
+  }
+
+  /* appBar: AppBar(
           backgroundColor: Colors.white,
           leading: Icon(
             Icons.arrow_back,
@@ -27,7 +142,9 @@ class ContactProfilePage extends StatelessWidget {
               },
             ),
           ],
-        ),
+        ),*/
+
+  /*  
         body: ListView(
           children: <Widget>[
             Column(
@@ -61,7 +178,20 @@ class ContactProfilePage extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: Row(
+                  //NEW CODE: Applying local theme to profileActionItems()
+                child: Theme(
+                data: ThemeData(
+                  //Applying iconTheme locally
+                  iconTheme: IconThemeData(
+                    //NOTE: Try Colors.orange or a diffrent color
+                    color: Colors.pink,
+                  ),
+                ),
+                child: profileActionItems(),
+              ),
+                  */
+
+  /*   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       //Adding Profile action items
@@ -72,8 +202,8 @@ class ContactProfilePage extends StatelessWidget {
                       buildDirectionsButton(),
                       buildPayButton(),
                     ],
-                  ),
-                ),
+                  ),*/
+  /*      ),
                 //Divider to separate action items section
                 Divider(
                   color: Colors.grey,
@@ -104,7 +234,7 @@ class ContactProfilePage extends StatelessWidget {
         ),
       ),
     );
-  }
+  }  */
 
   //Adding "Call" action item
   Widget buildCallButton() {
