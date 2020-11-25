@@ -2,30 +2,42 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(ContactProfilePage());
 
+enum APP_THEME { LIGHT, DARK }
+
 class MyAppThemes {
   //method to provide light theme
 
   static ThemeData appThemeLight() {
     return ThemeData(
-        //Define the default brightness and colors
-        brightness: Brightness.light,
+      //Define the default brightness and colors
+      brightness: Brightness.light,
 
-        ////Theme for app bar
-        appBarTheme: AppBarTheme(
-          //AppBar's color
-          color: Colors.white,
+      ////Theme for app bar
+      appBarTheme: AppBarTheme(
+        //AppBar's color
+        color: Colors.white,
 
-          //Theme for AppBar's icons
-          iconTheme: IconThemeData(
-            //Dark color icons on light colored background
-            color: Colors.black,
-          ),
-        ),
-
-        //Theme for apps icon
+        //Theme for AppBar's icons
         iconTheme: IconThemeData(
-          color: Colors.indigo.shade800,
-        ));
+          //Dark color icons on light colored background
+          color: Colors.black,
+        ),
+      ),
+
+      //Theme for apps icon
+      iconTheme: IconThemeData(
+        color: Colors.indigo.shade800,
+      ),
+
+      //Theme for FAB
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        //White background
+        backgroundColor: Colors.white,
+
+        //Black plus (+) sign for FAB
+        foregroundColor: Colors.black,
+      ),
+    );
   }
 
   //Method to provide dark theme
@@ -50,18 +62,40 @@ class MyAppThemes {
       iconTheme: IconThemeData(
         color: Colors.orange,
       ),
+
+      //Theme for FAB
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        //dark background for FAB
+        backgroundColor: Colors.black,
+
+        //White plus (+) sign for FAB
+        foregroundColor: Colors.white,
+      ),
     );
   }
 }
 
-class ContactProfilePage extends StatelessWidget {
+class ContactProfilePage extends StatefulWidget {
+  @override
+  _ContactProfilePageState createState() => _ContactProfilePageState();
+}
+
+class _ContactProfilePageState extends State<ContactProfilePage> {
+  //NEW CODE
+  var currentTheme = APP_THEME.LIGHT;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
+//NEW CODE: Applying theme based on the current selection.
+      theme: currentTheme == APP_THEME.DARK
+          ? MyAppThemes.appThemeDark()
+          : MyAppThemes.appThemeLight(),
+
       //SOLUTION: Use method for dark theme
-      theme: MyAppThemes.appThemeDark(),
+      // theme: MyAppThemes.appThemeDark(),
 
       home: Scaffold(
         //Creating app bar
@@ -69,6 +103,20 @@ class ContactProfilePage extends StatelessWidget {
 
         //Creating body part of the app
         body: buildBodyWidget(),
+        //Code for FAB
+        floatingActionButton: FloatingActionButton(
+          child: IconButton(
+            icon: Icon(Icons.threesixty),
+            onPressed: () {
+              setState(() {
+                //NEW CODE: Currently selected theme toggles when FAB is pressed
+                currentTheme == APP_THEME.DARK
+                    ? currentTheme = APP_THEME.LIGHT
+                    : currentTheme = APP_THEME.DARK;
+              });
+            },
+          ),
+        ),
       ),
     );
   }
