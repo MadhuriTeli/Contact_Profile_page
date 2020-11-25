@@ -1,31 +1,73 @@
-//contact profile page use with .dart extension
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(ContactProfilePage());
+
+class MyAppThemes {
+  //method to provide light theme
+
+  static ThemeData appThemeLight() {
+    return ThemeData(
+        //Define the default brightness and colors
+        brightness: Brightness.light,
+
+        ////Theme for app bar
+        appBarTheme: AppBarTheme(
+          //AppBar's color
+          color: Colors.white,
+
+          //Theme for AppBar's icons
+          iconTheme: IconThemeData(
+            //Dark color icons on light colored background
+            color: Colors.black,
+          ),
+        ),
+
+        //Theme for apps icon
+        iconTheme: IconThemeData(
+          color: Colors.indigo.shade800,
+        ));
+  }
+
+  //Method to provide dark theme
+
+  static ThemeData appThemeDark() {
+    return ThemeData(
+      // Define the default brightness and colors for the overall app.
+      brightness: Brightness.dark,
+
+      //Theme for app bar
+      appBarTheme: AppBarTheme(
+        //AppBar's background color is dark this time
+        color: Colors.black,
+
+        //Light color for the app bar's icons
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+      ),
+
+      //App's icons are colored in orange color
+      iconTheme: IconThemeData(
+        color: Colors.orange,
+      ),
+    );
+  }
+}
 
 class ContactProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //Applying Global Theme
-      theme: ThemeData(
-          //Define the default brightness and colors
-          brightness: Brightness.light,
-          //applying global theme to appBar
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-            iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
-          ),
-          iconTheme: IconThemeData(
-            color: Colors.indigo.shade800,
-          )),
+
+      //SOLUTION: Use method for dark theme
+      theme: MyAppThemes.appThemeDark(),
 
       home: Scaffold(
+        //Creating app bar
         appBar: buildAppBarWidget(),
+
+        //Creating body part of the app
         body: buildBodyWidget(),
       ),
     );
@@ -81,7 +123,7 @@ class ContactProfilePage extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 8, bottom: 8),
-              //NEW CODE: Applying local theme to profileActionItems()
+              /* NEW CODE: Applying local theme to profileActionItems()
               child: Theme(
                 data: ThemeData(
                   //Applying iconTheme locally
@@ -89,9 +131,8 @@ class ContactProfilePage extends StatelessWidget {
                     //NOTE: Try Colors.orange or a diffrent color
                     color: Colors.pink,
                   ),
-                ),
-                child: profileActionItems(),
-              ),
+                ), */
+              child: profileActionItems(),
             ),
             Divider(
               color: Colors.grey,
@@ -127,115 +168,6 @@ class ContactProfilePage extends StatelessWidget {
     );
   }
 
-  /* appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.star_border),
-              color: Colors.black,
-              onPressed: () {
-                print("Contact is starred");
-              },
-            ),
-          ],
-        ),*/
-
-  /*  
-        body: ListView(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: 250,
-                  child: Image.network(
-                    "https://cdn.pixabay.com/photo/2020/11/06/05/33/woman-5716875_1280.png",
-                    height: 250,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Ms. ABS",
-                          style: TextStyle(fontSize: 30),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  color: Colors.grey,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                  //NEW CODE: Applying local theme to profileActionItems()
-                child: Theme(
-                data: ThemeData(
-                  //Applying iconTheme locally
-                  iconTheme: IconThemeData(
-                    //NOTE: Try Colors.orange or a diffrent color
-                    color: Colors.pink,
-                  ),
-                ),
-                child: profileActionItems(),
-              ),
-                  */
-
-  /*   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      //Adding Profile action items
-                      buildCallButton(),
-                      buildTextButton(),
-                      buildVideoCallButton(),
-                      buildEmailButton(),
-                      buildDirectionsButton(),
-                      buildPayButton(),
-                    ],
-                  ),*/
-  /*      ),
-                //Divider to separate action items section
-                Divider(
-                  color: Colors.grey,
-                ),
-
-                //Adding Phone numbers items
-                mobilePhoneListTile(),
-                otherPhoneListTile(),
-
-                //Divider to separate out phone numbers section
-                Divider(
-                  color: Colors.grey,
-                ),
-
-                //NEW CODE: Email address item
-                emailListTile(),
-
-                //NEW CODE: Divider to separate physical address
-                Divider(
-                  color: Colors.grey,
-                ),
-
-                //NEW CODE: Contact's home address item
-                addressListTile(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }  */
-
   //Adding "Call" action item
   Widget buildCallButton() {
     return Column(
@@ -243,7 +175,6 @@ class ContactProfilePage extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.call,
-            color: Colors.indigo.shade800,
           ),
           onPressed: () {},
         ),
@@ -259,7 +190,6 @@ class ContactProfilePage extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.message,
-            color: Colors.indigo.shade800,
           ),
           onPressed: () {},
         ),
@@ -273,10 +203,7 @@ class ContactProfilePage extends StatelessWidget {
     return Column(
       children: <Widget>[
         IconButton(
-          icon: Icon(
-            Icons.video_call,
-            color: Colors.indigo.shade800,
-          ),
+          icon: Icon(Icons.video_call),
           onPressed: () {},
         ),
         Text("Video"),
@@ -289,10 +216,7 @@ class ContactProfilePage extends StatelessWidget {
     return Column(
       children: <Widget>[
         IconButton(
-          icon: Icon(
-            Icons.email,
-            color: Colors.indigo.shade800,
-          ),
+          icon: Icon(Icons.email),
           onPressed: () {},
         ),
         Text("Email"),
@@ -305,10 +229,7 @@ class ContactProfilePage extends StatelessWidget {
     return Column(
       children: <Widget>[
         IconButton(
-          icon: Icon(
-            Icons.directions,
-            color: Colors.indigo.shade800,
-          ),
+          icon: Icon(Icons.directions),
           onPressed: () {},
         ),
         Text("Directions"),
@@ -323,7 +244,6 @@ class ContactProfilePage extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.attach_money,
-            color: Colors.indigo.shade800,
           ),
           onPressed: () {},
         ),
@@ -335,12 +255,14 @@ class ContactProfilePage extends StatelessWidget {
   //Adding "Mobile Phone Number" item
   Widget mobilePhoneListTile() {
     return ListTile(
-      leading: Icon(Icons.call),
+      leading: Icon(
+        Icons.call,
+        color: Colors.grey,
+      ),
       title: Text("330-803-3390"),
       subtitle: Text("mobile"),
       trailing: IconButton(
         icon: Icon(Icons.message),
-        color: Colors.indigo.shade500,
         onPressed: () {},
       ),
     );
@@ -354,7 +276,6 @@ class ContactProfilePage extends StatelessWidget {
       subtitle: Text("other"),
       trailing: IconButton(
         icon: Icon(Icons.message),
-        color: Colors.indigo.shade500,
         onPressed: () {},
       ),
     );
@@ -363,7 +284,10 @@ class ContactProfilePage extends StatelessWidget {
   //NEW CODE: Adding "Email Address" item
   Widget emailListTile() {
     return ListTile(
-      leading: Icon(Icons.email),
+      leading: Icon(
+        Icons.email,
+        color: Colors.grey,
+      ),
       title: Text("abc@.com"),
       subtitle: Text("work"),
     );
@@ -372,12 +296,14 @@ class ContactProfilePage extends StatelessWidget {
   //NEW CODE: Adding Contact's home address
   Widget addressListTile() {
     return ListTile(
-      leading: Icon(Icons.location_on),
+      leading: Icon(
+        Icons.location_on,
+        color: Colors.grey,
+      ),
       title: Text("abs home address"),
       subtitle: Text("home"),
       trailing: IconButton(
         icon: Icon(Icons.directions),
-        color: Colors.indigo.shade500,
         onPressed: () {},
       ),
     );
